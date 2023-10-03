@@ -33,11 +33,16 @@ function Deck() {
     setHand((h) => [...h, data.cards[0]]);
   }
 
-  function shuffleDeck() {
-    //TODO: how to disable button
-    const response = fetch(
+  let isDisabled = false;
+
+  async function shuffleDeck() {
+    isDisabled = true;
+    console.log(isDisabled, "BEFORE FETCH")
+    await fetch(
       `https://deckofcardsapi.com/api/deck/${deck}/shuffle/`
-    );
+      );
+    isDisabled = false;
+    console.log(isDisabled, "AFTER FETCH")
     setHand([]);
   }
 
@@ -47,8 +52,8 @@ function Deck() {
         <h1>No more cards!</h1>
       ) : (
         <div>
+          <button onClick={shuffleDeck} disabled={isDisabled}>Shuffle Deck</button>
           <button onClick={drawCard}>GIMME A CARD!</button>
-          <button onClick={shuffleDeck}>Shuffle Deck</button>
         </div>
       )}
       <br></br>
